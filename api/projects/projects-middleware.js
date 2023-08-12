@@ -19,10 +19,14 @@ const validateProjID = (req, res, next) => {
 
 const validateProjBody = (req, res, next) => {
   console.log('validateProjBody middleware')
-  const { name, description } = req.body
+  const { name, description, completed } = req.body
   if(!name || !description) {
     res.status(400).json({
       message: "Project name and description required"
+    })
+  } else if(req.method === 'PUT' && typeof completed !== 'boolean') {
+    res.status(400).json({
+      message: "Project name, description, and completion status required"
     })
   } else {
     next()
