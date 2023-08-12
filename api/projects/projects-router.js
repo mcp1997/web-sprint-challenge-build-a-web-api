@@ -25,16 +25,28 @@ router.post('/', validateProjBody, (req, res, next) => {
     .catch(next)
 })
 
-router.put('/:id', (req, res, next) => {
-
+router.put('/:id', validateProjID, validateProjBody, (req, res, next) => {
+  Project.update(req.params.id, req.body)
+    .then(updated => {
+      res.json(updated)
+    })
+    .catch(next)
 })
 
-router.delete('/:id', (req, res, next) => {
-
+router.delete('/:id', validateProjID, (req, res, next) => {
+  Project.remove(req.params.id)
+    .then(() => {
+      res.status(200).json()
+    })
+    .catch(next)
 })
 
-router.get('/:id/actions', (req, res, next) => {
-
+router.get('/:id/actions', validateProjID, (req, res, next) => {
+  Project.getProjectActions(req.params.id)
+    .then(actions => {
+      res.json(actions)
+    })
+    .catch(next)
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
