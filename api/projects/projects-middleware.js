@@ -26,7 +26,7 @@ const validateProjBody = (req, res, next) => {
     })
   } else if(req.method === 'PUT' && typeof completed !== 'boolean') {
     res.status(400).json({
-      message: "Project name, description, and completion status required"
+      message: "name, description, and completion status required to update Project"
     })
   } else {
     next()
