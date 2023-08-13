@@ -18,15 +18,28 @@ router.get('/:id', validateActionID, (req, res) => {
 })
 
 router.post('/', validateActionBody, (req, res, next) => {
-  
+  Action.insert(req.body)
+    .then(action => {
+      res.status(201).json(action)
+    })
+    .catch(next)
 })
 
-router.put('/:id', (req, res, next) => {
-  
+router.put('/:id', validateActionID, validateActionBody, (req, res, next) => {
+  console.log(req.body)
+  Action.update(req.params.id, req.body)
+    .then(updated => {
+      res.json(updated)
+    })
+    .catch(next)
 })
 
-router.delete('/:id', (req, res, next) => {
-  
+router.delete('/:id', validateActionID, (req, res, next) => {
+  Action.remove(req.params.id)
+    .then(() => {
+      res.status(200).json()
+    })
+    .catch(next)
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line

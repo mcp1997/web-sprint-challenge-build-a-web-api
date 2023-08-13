@@ -19,13 +19,13 @@ const validateActionID = (req, res, next) => {
 
 const validateActionBody = (req, res, next) => {
   const { project_id, description, notes, completed } = req.body
-  if(description.length > 128) {
-    res.status(400).json({
-      message: "Action description cannot be longer than 128 characters"
-    })
-  } else if(!description || !notes || !project_id) {
+  if(!description || !notes || !project_id) {
     res.status(400).json({
       message: "Action description, notes, and Project ID required"
+    })
+  } else if(description.length > 128) {
+    res.status(400).json({
+      message: "Action description cannot be longer than 128 characters"
     })
   } else if(req.method === 'PUT' && typeof completed !== 'boolean') {
     res.status(400).json({
